@@ -1,24 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import { BrowserRouter, Route, Link, useParams } from "react-router-dom";
+
+const Saludo = () => {
+  const params = useParams()
+  const nombre = params.nombre
+  return <h1>Hola {nombre}</h1>
+}
 
 function App() {
+  const [text, setText] = useState("");
+
+  const actualizar = (e) => {
+    setText(e.target.value);
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <input type="text" value={text} onChange={actualizar} />
+      <Link to={"/saludar/" + text}>Saludar</Link>
+      <Route exact path="/saludar/:nombre">
+        <Saludo />
+      </Route>
+    </BrowserRouter>
   );
 }
 
